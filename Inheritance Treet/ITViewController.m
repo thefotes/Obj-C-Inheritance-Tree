@@ -17,16 +17,6 @@
 
 @implementation ITViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 #pragma mark Properties
 
 - (ITCrawler *)crawler
@@ -44,8 +34,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    if ([self.crawler.classNamesArray objectAtIndex:indexPath.row])
-    {
+    if ([self.crawler.classNamesArray objectAtIndex:indexPath.row]) {
         cell.textLabel.text = [self.crawler.classNamesArray objectAtIndex:indexPath.row];
     }
     
@@ -59,7 +48,6 @@
     } else {
         return 0;
     }
-   
 }
 
 #pragma mark Textfield Delegate

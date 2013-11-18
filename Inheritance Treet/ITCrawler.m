@@ -26,9 +26,7 @@
         if (superClass) {
             [self getSuperClassForClassFromString:NSStringFromClass(superClass)];
         }
-    }
-    else
-    {
+    } else {
         NSLog(@"Not a valid class: %@", className);
     }
 }
