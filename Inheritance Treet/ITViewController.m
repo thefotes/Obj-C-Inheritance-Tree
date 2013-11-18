@@ -11,8 +11,6 @@
 
 
 @interface ITViewController ()
-
-@property (weak, nonatomic) NSMutableArray *classNames;
 @property (strong, nonatomic) NSString *classNameToSearch;
 @property (strong, nonatomic) ITCrawler *crawler;
 @end
@@ -29,14 +27,14 @@
     [super viewWillAppear:animated];
 }
 
-#pragma Properties
+#pragma mark Properties
 
 - (ITCrawler *)crawler
 {
     return _crawler = _crawler ?: [[ITCrawler alloc] init];
 }
 
-#pragma Table View DataSource
+#pragma mark Table View DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"Cell";
@@ -46,21 +44,31 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    cell.textLabel.text = [[self.crawler getSuperClassForClassFromString:self.classNameToSearch] objectAtIndex:indexPath.row];
+    if ([self.crawler.classNamesArray objectAtIndex:indexPath.row])
+    {
+        cell.textLabel.text = [self.crawler.classNamesArray objectAtIndex:indexPath.row];
+    }
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.crawler getSuperClassForClassFromString:self.classNameToSearch].count;
+    if (self.crawler.classNamesArray) {
+         return self.crawler.classNamesArray.count;
+    } else {
+        return 0;
+    }
+   
 }
 
-#pragma Textfield Delegate
+#pragma mark Textfield Delegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     self.classNameToSearch = textField.text;
+    [self.crawler.classNamesArray removeAllObjects];
+    [self.crawler getSuperClassForClassFromString:self.classNameToSearch];
     [self.tableView reloadData];
     return YES;
 }

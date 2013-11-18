@@ -9,11 +9,6 @@
 #import "ITCrawler.h"
 #import <objc/runtime.h>
 
-@interface ITCrawler()
-
-@property (strong, nonatomic) NSMutableArray *classNamesArray;
-
-@end
 @implementation ITCrawler
 
 #pragma Properties
@@ -23,18 +18,19 @@
 }
 
 #pragma Methods
-- (NSArray *)getSuperClassForClassFromString:(NSString *)className
+- (void)getSuperClassForClassFromString:(NSString *)className
 {
-    Class superClass = class_getSuperclass(NSClassFromString(className));
-    [self.classNamesArray addObject:[NSString stringWithFormat:@"%@", className]];
-    
-    if (superClass) {
-        [self getSuperClassForClassFromString:NSStringFromClass(superClass)];
+    if (className) {
+        [self.classNamesArray addObject:[NSString stringWithFormat:@"%@", className]];
+        Class superClass = class_getSuperclass(NSClassFromString(className));
+        if (superClass) {
+            [self getSuperClassForClassFromString:NSStringFromClass(superClass)];
+        }
     }
-
-    return [NSArray arrayWithArray:self.classNamesArray];
-    
-
+    else
+    {
+        NSLog(@"Not a valid class: %@", className);
+    }
 }
 
 @end
