@@ -10,6 +10,7 @@
 
 @interface ITCrawler : NSObject
 
-- (NSArray *)getSuperClassForClassFromString:(NSString *)className;
+@property (strong, nonatomic) NSMutableArray *classNamesArray;
+- (void)getSuperClassForClassFromString:(NSString *)className;
 
 @end
